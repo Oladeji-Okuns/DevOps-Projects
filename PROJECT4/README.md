@@ -39,19 +39,18 @@ First, we update our package index, then we go ahead to get Nginx installed usin
 
 `sudo apt update`
 
-![alt text](apt_update.png)
-
+![alt text](images/apt_update.png)
 
 `sudo apt install nginx`
 
-![alt text](nginx_installed.png)
+![alt text](images/nginx_installed.png)
 
 
 To verify the installation of nginx was successfully done and to confirm it is up and running, we use the command below:
 
 `sudo systemctl status nginx`
 
-![alt text](nginx_install_verified.png)
+![alt text](images/nginx_install_verified.png)
 
 Once this command is run, if the output shows that it is active (running) and in green color as shown above, then you did every thing correctly and have launched the web server in the cloud.
 
@@ -63,17 +62,17 @@ By default, TCP port 22 is open by default on our EC2 machine to enable us acces
 
 The steps to setting/editing the in-bound rules to enable in-bound connection via port 80 are shown below:
 
-![alt text](setting_inbound1.png)
+![alt text](images/setting_inbound1.png)
 
-![alt text](setting_inbound2.png)
+![alt text](images/setting_inbound2.png)
 
-![alt text](setting_inbound3.png)
+![alt text](images/setting_inbound3.png)
 
-![alt text](setting_inbound4.png)
+![alt text](images/setting_inbound4.png)
 
-![alt text](setting_inbound5.png)
+![alt text](images/setting_inbound5.png)
 
-![alt text](save_inbound_rule.png)
+![alt text](images/save_inbound_rule.png)
 
 
 Now our server is running and we can access it locally and from the internet.
@@ -88,7 +87,7 @@ We can check how we can access the web server locally in our Ubuntu shell by run
 
 `curl http://localhost:80`
 
-![alt text](accessing_nginx_locally.png)
+![alt text](images/accessing_nginx_locally.png)
 
 OR 
 
@@ -96,7 +95,7 @@ OR
 
 `curl http://127.0.0.1:80`
 
-![alt text](access_nginx_locally_by_IP.png)
+![alt text](images/access_nginx_locally_by_IP.png)
 
 In the above, we used the `curl` command to request our Nginx on port 80, although it would still work even if the port number is not specified.
 The IP address `127.0.0.1` corresponds to the DNS Name `localhost`, so whichever one is used, it would give the same result as the DNS name is usually resolved to its corresponding IP address.
@@ -116,7 +115,7 @@ In this case, we insert the public IP address of the server.
 
 `http://13.60.7.254:80`
 
-![alt text](Confirming_Nginx_on_browser.png)
+![alt text](images/Confirming_Nginx_on_browser.png)
 
 
 ### Retrieving Public IP-Address
@@ -129,7 +128,7 @@ You can get your server's public IP address by using two methods:
 
 `curl -s http://169.254.169.254/latest/meta-data/public-ipv4`
 
-![alt text](Retrieving_pubic_IP_address_via_command.png)
+![alt text](images/Retrieving_pubic_IP_address_via_command.png)
 
 
 ## INSTALLING MySQL
@@ -141,7 +140,7 @@ As usual, in order to acquire and install the DBMS, we need to use the `apt` com
 
 `sudo apt install mysql-server`
 
-![alt text](Installing_mysql.png)
+![alt text](images/Installing_mysql.png)
 
 You will get a prompt requiring you to input 'Y' to confirm installation, do this and press`Enter` button to proceed.
 
@@ -149,7 +148,7 @@ Once the installation is finished, we can then log in to the MySQL console by ty
 
 `sudo mysql`
 
-![alt text](logging_into_mysql.png)
+![alt text](images/logging_into_mysql.png)
 
 Running this command will connect you to the MySQL server as the administrative database user **root**, which is inferred by the use of the 'sudo' when running this command.
 
@@ -161,13 +160,13 @@ To set this password, we enter the code below:
 
 `ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'PassWord.1';`
 
-![alt text](setting_mysql_password.png)
+![alt text](images/setting_mysql_password.png)
 
 After this, we can now exit the MySQL shell with the command below:
 
 `exit`
 
-![alt text](exiting_mysql_server.png)
+![alt text](images/exiting_mysql_server.png)
 
 ### Runnning the Security Script
 
@@ -175,7 +174,7 @@ We can now start the interactive script by running the command below:
 
 `sudo mysql_secure_installation`
 
-![alt text](run_mysql_sec_script.png)
+![alt text](images/run_mysql_sec_script.png)
 
 
 Once this command is run, you will be asked if you want to configure the `VALIDATE PASSWORD PLUGIN`.
@@ -198,7 +197,7 @@ After completing the steps above, it is time to test if we are able to log in to
 
 **NOTE:** In the command above, there is a `-p` flag, and its purpose is to prompt you for the password used after changing the **root password**.
 
-![alt text](mysql_login_prompt.png)
+![alt text](images/mysql_login_prompt.png)
 
 
 ### Exiting the MYSQL
@@ -207,7 +206,7 @@ We can exit the MySQL console by typing the command below:
 
 `exit`
 
-![alt text](exiting_mysql.png)
+![alt text](images/exiting_mysql.png)
 
 
 
@@ -219,7 +218,7 @@ You can check what version of your MySQL server is running by using the command 
 
 `sudo mysql -p`
 
-![alt text](checking_mysql_version.png)
+![alt text](images/checking_mysql_version.png)
 
 
 With these above, the MySQL server is now installed and secured. Next, we will go into installing PHP which is the final component in the LEMP stack.
@@ -247,9 +246,9 @@ It is possible to install these two packages at once. To do so, we run the follo
 
 When prompted, type `Y` and press `Enter` to confirm installation.
 
-![alt text](installing_PHP_packages.png)
+![alt text](images/installing_PHP_packages.png)
 
-![alt text](PHP_installed.png)
+![alt text](images/PHP_installed.png)
 
 
 ## CONFIGURING NGINX TO USE PHP PROCESSOR
@@ -268,7 +267,7 @@ To create the root web directory for our chosen domain **projectLEMP**, we do th
 
 `sudo mkdir /var/www/projectLEMP`
 
-![alt text](creating_rootweb_dir.png)
+![alt text](images/creating_rootweb_dir.png)
 
 ### Assigning Directory Ownership
 
@@ -276,11 +275,11 @@ Next step is to assign ownership of the directory with the $USER environment var
 
 `sudo chown -R $USER:$USER /var/www/projectLEMP`
 
-![alt text](assigning_dir_ownership.png)
+![alt text](images/assigning_dir_ownership.png)
 
 ### Verifying Directory Ownership
 
-![alt text](verifying_dir_ownership.png)
+![alt text](images/verifying_dir_ownership.png)
 
 
 ### Setting up new configuration file in Nginx's `sites-available`
@@ -314,9 +313,9 @@ The following script is inserted into the config file:
     }
 
 
-![alt text](config_script_sites_available.png)
+![alt text](images/config_script_sites_available.png)
 
-![alt text](sites-available_configscript.png)
+![alt text](images/sites-available_configscript.png)
 
 
 #### Function of each of the directives and location block:
@@ -348,7 +347,7 @@ We can do this by running the command below:
 
 `$ sudo ln -s /etc/nginx/sites-available/projectLEMP /etc/nginx/sites-enabled/`
 
-![alt text](activating_config.png)
+![alt text](images/activating_config.png)
 
 This command above which we ran will tell Nginx to use the new configuration next time it is reloaded.
 
@@ -360,7 +359,7 @@ We can test our configuration for syntax errors by typing and entering the follo
 
 The output of running this command is shown in the image below:
 
-![alt text](config_test.png)
+![alt text](images/config_test.png)
 
 
 **NOTE:** If errors are reported after running the command to test for syntax errors, then you have to go back to your configuration file to review its contents before continuing.
@@ -372,7 +371,7 @@ We need to disable the default Nginx host which is currently configured to liste
 
 `sudo unlink /etc/nginx/sites-enabled/default`
 
-![alt text](defaultnginxhost_disabled.png)
+![alt text](images/defaultnginxhost_disabled.png)
 
 ### Reloading Nginx
 
@@ -380,7 +379,7 @@ After disabling the default Nginx host, the next thing we must do is to reload N
 
 `sudo systemctl reload nginx`
 
-![alt text](nginx_reload.png)
+![alt text](images/nginx_reload.png)
 
 Having done all this, our new website is now ready, although the web root /var/www/projectLEMP is still empty. Therefore, we need to create an index.html file in that location so that we can test that our new server block works as expected.
 
@@ -390,7 +389,7 @@ To create an index.html file to test that our server block works well, we do thi
 
 `sudo echo 'Hello LEMP from hostname' $(curl -s http://169.254.169.254/latest/meta-data/public-hostname) 'with public IP' $(curl -s http://169.254.169.254/latest/meta-data/public-ipv4) > /var/www/projectLEMP/index.html`
 
-![alt text](testindex.html_created.png)
+![alt text](images/testindex.html_created.png)
 
 ### Testing Our Website via IP Address
 
@@ -402,7 +401,7 @@ In this case the Public IP address is given as shown below:
 
 `http://13.60.7.254:80`
 
-![alt text](test_website.png)
+![alt text](images/test_website.png)
 
 In the image above, we are able to see the text from the **'echo'** command we wrote into the index.html file, this means that our Nginx site is working as expected.
 
@@ -418,7 +417,7 @@ In this case, the Public DNS name is given below:
 
 `http://ec2-13-60-7-254.eu-north-1.compute.amazonaws.com:80`
 
-![alt text](Test_landingpage.png)
+![alt text](images/Test_landingpage.png)
 
 We can leave this file in place as a temporary landing page for our application until we set up an `index.php` file to replace it. Once we get that done, we need to remember to remove or rename this `index.html` file from our document root as it would take precedence over the `index.php` file by default.
 
@@ -437,17 +436,16 @@ We can do this by:
 
     `nano /var/www/projectLEMP/info.php`
 
-    ![alt text](creating_phpfile.png)
+    ![alt text](images/creating_phpfile.png)
 
 - **Entering PHP code into the PHP file:**
 
     After creating and opening the `info.php` file, we can then type or paste the following code below into it. This code is actually a valid PHP code that will return information about our server.
 
-    `<?php `
+        `<?php
+        phpinfo();`
 
-    `phpinfo();`
-
-    ![alt text](php_code.png)
+    ![alt text](images/php_code.png)
 
 - **Website test:**
     
@@ -463,14 +461,14 @@ We can do this by:
     
         `http://13.60.7.254/info.php`
     
-        ![alt text](phpinfo_test_via_IP.png)
+        ![alt text](images/phpinfo_test_via_IP.png)
 
 
     2. **Through DNS:**
 
         `http://ec2-13-60-7-254.eu-north-1.compute.amazonaws.com//info.php`
 
-       ![alt text](phpinfo_test_via_DNS.png) 
+       ![alt text](images/phpinfo_test_via_DNS.png) 
 
 
 - **Deleting the test file:**
@@ -481,7 +479,7 @@ We can do this by:
 
     `sudo rm /var/www/projectLEMP/info.PHP`
 
-    ![alt text](removing_phpfile.png)
+    ![alt text](images/removing_phpfile.png)
 
     
     
@@ -489,7 +487,7 @@ We can do this by:
 
     `sudo cat /var/www/projectLEMP/info.php`
 
-    ![alt text](confirming_phpfile_removed.png)
+    ![alt text](images/confirming_phpfile_removed.png)
 
 
     We can always regenerate this file if we need it later.
@@ -513,7 +511,7 @@ For the purpose of this project, we will create a database named **example_datab
 
     `sudo mysql`
 
-    ![alt text](accessing_mysql.png)
+    ![alt text](images/accessing_mysql.png)
 
 
 2. **Create new Database:**
@@ -522,7 +520,7 @@ For the purpose of this project, we will create a database named **example_datab
 
     `CREATE DATABASE 'example_database';`
 
-    ![alt text](create_newDB.png)
+    ![alt text](images/create_newDB.png)
 
 
 3. **Create new user:**
@@ -533,7 +531,7 @@ For the purpose of this project, we will create a database named **example_datab
 
     `CREATE USER 'example_user'@'%' IDENTIFIED WITH mysql_native_password BY 'PassWord.1';`
 
-    ![alt text](create_user.png)
+    ![alt text](images/create_user.png)
 
 ### Grant Permissions:
 
@@ -541,7 +539,7 @@ At this point, we now have to give this new user permission over the `example_da
 
 `GRANT ALL ON example_database.* TO 'example_user'@'%';`
 
-![alt text](granting_permissions.png)
+![alt text](images/granting_permissions.png)
 
 
 With this, we have given the user named **`example_user`** full privileges over the **`example_database`** database, while preventing the user from creating or modifying other databases on our server.
@@ -551,7 +549,7 @@ With this, we have given the user named **`example_user`** full privileges over 
 
 Now we can exit the MySQL shell using the `exit` command.
 
-![alt text](exiting_mysql1.png)
+![alt text](images/exiting_mysql1.png)
 
 
 ### Testing permissions of the New User:
@@ -560,14 +558,14 @@ We can test if the new user has the proper permissions by logging in to the MySQ
 
 `mysql -u example_user -p`
 
-![alt text](mysqluser_test.png)
+![alt text](images/mysqluser_test.png)
 
 
 **NOTE:** The `-p` flag in this command helps to prompt us for the password we used when creating the `example_user` user. After logging in to the MySQL console, we then confirm that we have access to the `example_database` database. We run the command below to display the list of databases available:
 
 `SHOW DATABASES;`
 
-![alt text](show_db.png)
+![alt text](images/show_db.png)
 
 
 ### Create Test Table:
@@ -576,7 +574,7 @@ Now, we will create a test table named **todo_list**, and to get this done, we w
 
 `CREATE TABLE example_database.todo_list (item_id INT AUTO_INCREMENT,content VARCHAR(255),PRIMARY KEY(item_id));`
 
-![alt text](creating_test_table.png)
+![alt text](images/creating_test_table.png)
 
 
 ### Insert content into test table:
@@ -585,7 +583,7 @@ Next, we can insert a few rows of content into the test table. To create more co
 
 `INSERT INTO example_database.todo_list (content) VALUES ("My first important item");`
 
-![alt text](insert_content_into_test_table.png)
+![alt text](images/insert_content_into_test_table.png)
 
 
 ### Confirm Data in Table:
@@ -594,7 +592,7 @@ To confirm that the data was successfully saved to our table, we run the command
 
 `SELECT * FROM example_database.todo_list;`
 
-![alt text](confirm_content_in_DB.png)
+![alt text](images/confirm_content_in_DB.png)
 
 
 After confirming we have valid data in the test table, we can now exit the MySQL console with the `exit` command.
@@ -609,7 +607,7 @@ To do this, we create a new PHP file in our custom web root directory using our 
 
 `nano /var/www/projectLEMP/todo_list.php`
 
-![alt text](creating_phpscrpt_via_nano_editor.png)
+![alt text](images/creating_phpscrpt_via_nano_editor.png)
 
 
 Then we input or insert the PHP script into the file via the nano editor as shown below:
@@ -632,7 +630,7 @@ Then we input or insert the PHP script into the file via the nano editor as show
         die();
     }
 
-![alt text](inserting_PHP_script.png)
+![alt text](images/inserting_PHP_script.png)
 
 
 With this done, we can now save and close the file.
@@ -647,7 +645,7 @@ In the case of this project, it is given as below:
 `http://13.60.7.254/todo_list.php`
 
 
-![alt text](confirming_DBdata_via_IP.png)
+![alt text](images/confirming_DBdata_via_IP.png)
 
 
 OR
@@ -655,7 +653,7 @@ OR
 `http://ec2-13-60-7-254.eu-north-1.compute.amazonaws.com/todo_list.php`
 
 
-![alt text](confirming_DBdata_via_DNS.png)
+![alt text](images/confirming_DBdata_via_DNS.png)
 
 
 
