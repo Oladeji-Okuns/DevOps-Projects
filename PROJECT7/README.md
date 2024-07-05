@@ -36,7 +36,7 @@ Another EC2 instance is created to serve as the load balancer as shown below:
 
 ![alt text](images/creating_EC2_for_loadbal.png)
 
-![alt text](images/loadbalancer_created.png)
+![alt text](images/load_balacer_instance.png)
 
 ### **Step 2:** **Opening ports and setting Inbound rules:**
 
