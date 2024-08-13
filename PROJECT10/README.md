@@ -933,10 +933,13 @@ If you wish to let MySQL handle the auto increment of the id column by itself ra
 
 We will open the website in our web browser using `http://<Web-Server-Public-IP-Address-or-Public-DNS-Name>/index.php, and make sure that we can log in to the website with the `myuser` user.
 
+    http://52.51.47.142/index.php
+
 ![alt text](images/testing-solution-on-web-browser-1.png)
 
 ![alt text](images/testing-solution-on-web-browser-2.png)
 
 
 
-# END OF PROJECT 10
+## We have just successfully implemented a web solution for a DevOps team using LAMP stack with remote Database and NFS servers.
+
