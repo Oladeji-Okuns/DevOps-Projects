@@ -5,9 +5,11 @@ The objective of this project is to implement our first Continous Integration so
 
 ## INTRODUCTION
 
-DevOps is about Agility, and speedy release of software and web solutions. One of the ways to guarantee fast and repeatable deployments is Automation of routine tasks.
-In this project we are going to start automating part of our routine tasks with a free and open source automation server - Jenkins. It is one of the most popular CI/CD tools, it was created by a former Sun Microsystems developer Kohsuke Kawaguchi and the project originally had a named "Hudson".
-Acording to Circle CI, Continuous integration (CI) is a software development strategy that increases the speed of development while ensuring the quality of the code that teams deploy. Developers continually commit code in small increments (at least daily, or even several times a day), which is then automatically built and tested before it is merged with the shared repository.
+DevOps is about Agility, and speedy release of software and web solutions. One of the ways to guarantee fast and repeatable deployments is Automation of routine tasks. <br>
+In this project we are going to start automating part of our routine tasks with a free and open source automation server - Jenkins. It is one of the most popular CI/CD tools, it was created by a former Sun Microsystems developer Kohsuke Kawaguchi and the project originally had a named "Hudson". <br>
+
+According to Circle CI, Continuous integration (CI) is a software development strategy that increases the speed of development while ensuring the quality of the code that teams deploy. <br> Developers continually commit code in small increments (at least daily, or even several times a day), which is then automatically built and tested before it is merged with the shared repository. <br>
+
 In this project, we are going to utilize Jenkins CI capabilities to make sure that every change made to the source code in GitHub https://github.com/Oladeji-Okuns/tooling will be automatically updated to the Tooling Website.
 
 ### WHAT IS CONTINUOUS INTEGRATION AND CONTINUOUS DELIVERY (CI/CD)?
@@ -510,10 +512,14 @@ This command will print out or display the ssh key on the terminal, so copy the 
 We need to add this public key to the `~/.ssh/authorized_keys` file on your NFS server. This allows the Jenkins server to authenticate with the NFS server without a password.
 
 
-    This is another method of creating ssh keys for connection of the Jenkins server to the NFS server
+    This method above is another method of creating ssh keys for connection of the Jenkins server to the NFS server
 
 
-- Next, click on `Add SSH Server` and enter the following details:
+#### Configuring the Jenkins server to copy or send artifacts to the NFS Server:
+
+Now, we head over to the Jenkins console, click on `manage jenkins` and scroll down to `publish over SSH` and do the following:
+
+- Since you have already provided the path to the key, just click on `Add SSH Server` and enter the following details:
 
 - **Name:** Enter NFS_Server.
 - **Hostname:** Insert the private IP address of your NFS_SERVER.
@@ -613,16 +619,82 @@ Finally, save the configuration and make any modification of your preference to 
 
 
 
+**NOTE:** We can also use another method to have the artifacts on the NFS Server as shown below:
+
+    In this method, we will create a directory known as `/mnt/apps` on the Jenkins server and then mount it to the `/mnt/apps` on the NFS server.
+    
+        sudo mkdir -p /mnt/apps
+
+        sudo mount -t nfs 172.31.10.187:/mnt/apps /mnt/apps
+
+   Next, add the following details to the `/etc/fstab` file on the Jenkins server as shown below:
+
+    172.31.10.187:/mnt/apps /mnt/apps nfs defaults 0 0
+
+![alt text](images/fstab-file-on-jenkins-server.png)
 
 
+    
+     AS a result of this, we will not need to publish artifacts over SSH to the NFS server since we will be having a direct link between the Jenkins server and the NFS_server as a result of the mounts. So we will do the following:
+
+    - Remove the SSH Server Configuration:
+    Navigate to your Jenkins dashboard, click on Manage Jenkins and select System in SYstem configuration.
+    Locate the SSH Server Configuration, scroll down to the section labeled `Publish over SSH` and find the configuration for the NFS_Server:
+    You can either:
+    
+    Delete the entire SSH server configuration if you’re certain you won’t need it.
+    OR
+    Simply clear the fields (Name, Hostname, Username, Remote Directory) if you want to keep the section for potential future use but not have any active configurations.
+    OR
+    You can choose to keep the configurations as the are for future use:
+    Name: NFS_Server
+    Hostname: 172.31.10.187
+    Username: ec2-user
+    Remote Directory: /mnt/apps
+
+    - Save the Configuration:
+    After making changes, scroll down and click Save to apply the changes.
+
+Next, navigate to your Jenkins job (e.g., Tooling-webhook-project).
+- **Set Up Artifact Archiving:**
+
+In the Post-Build Actions section, add the `Archive the artifacts` action.
+In the Files to archive field, enter: `**/*`. This will archive all files in the workspace.
+
+- **Add a Post-Build Action to Copy Artifacts:**
+
+Below the Archive the artifacts section, click on `Add post-build action`.
+Select Execute shell (this is where you will copy the files).
+Configure the `Execute Shell`:
+
+In the command field, enter a command to copy the artifacts to the /mnt/apps directory, as shown below:
+
+    cp -r $WORKSPACE/* /mnt/apps/
+
+**NOTE:** If you can’t find the option for `Execute shell`, ensure you have the `Execute Shell` build step in the `Build` section of the job.
+
+Add a `build` step before the `post-build` actions: <br>
+Select **`Add build steps`** > **`Execute shell`**.
+Then enter the command below:
+    
+     cp -r $WORKSPACE/* /mnt/apps/
+
+![alt text](images/adding-build-step.png)
 
 
+Once all these have been done, we can make the minor change to our `jenkins-job.html` file, commit and then push to github. We can then observe the build from our jenkins server console.
 
+![alt text](images/final-build-console-output.png)
 
+When we check the `/mnt/apps/html` on our NFS_Server, we can see that the artifacts have been sent and received in the NFS_Server.
 
+![alt text](images/verifying-build-received-on-mnt-apps.png)
 
+Next, we can test by accessing the webpage of our webserver on our browser as shown below, using the URL below:
 
+    http://63.33.191.109/jenkins-job.html
 
+![alt text](images/testing-webpage-on-browser.png)
 
 
 
