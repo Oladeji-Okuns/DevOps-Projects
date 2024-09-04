@@ -948,7 +948,7 @@ Now lets test our new playbook by running the command below:
 ![alt text](images/document-created-on-webserver1.png)
 
 
-Below is what our update Ansible Architecture looks like:
+Below is what our updated Ansible Architecture looks like:
 
 ![alt text](images/The-new-architecture-after-executing-the-playbook.png)
 
